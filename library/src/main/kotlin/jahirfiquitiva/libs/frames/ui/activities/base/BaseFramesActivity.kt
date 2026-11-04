@@ -20,8 +20,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.TextView
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.OnLifecycleEvent
 import ca.allanwang.kau.utils.contentView
 import ca.allanwang.kau.utils.openLink
 import ca.allanwang.kau.utils.postDelayed
@@ -226,7 +224,6 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         dialog?.show()
     }
     
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     override fun onDestroy() {
         super.onDestroy()
         destroyDialog()
