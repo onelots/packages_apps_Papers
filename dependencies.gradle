@@ -29,7 +29,7 @@ ext.versions = [
         versionName          : '2.0.0',
         // Dependencies
         coroutines           : '1.9.0',
-        room                 : '2.0.0',
+        room                 : '2.7.2',
         permissions          : '2.0.1',
         materialDialogs      : '3.1.0',
         glide                : '4.9.0',
@@ -57,7 +57,6 @@ ext.libraries = [
         // Glide Image Loading
         glide                : 'com.github.bumptech.glide:glide:' + versions.glide,
         gliderv              : 'com.github.bumptech.glide:recyclerview-integration:' + versions.glide,
-        glideCompiler        : 'com.github.bumptech.glide:compiler:' + versions.glide,
         // kext
         archHelpers          : 'com.github.coin3x.kext:archhelpers:' + versions.kext + '@aar',
         ziv                  : 'com.github.coin3x.kext:ziv:' + versions.kext,

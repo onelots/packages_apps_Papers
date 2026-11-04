@@ -23,7 +23,7 @@ dependencies {
     api libraries.coroutines
     // Architecture Components
     api libraries.room, exclusions
-    kapt libraries.roomCompiler
+    ksp libraries.roomCompiler
     // Permissions
     api libraries.permissions, exclusions
     // Material Dialogs
@@ -33,7 +33,6 @@ dependencies {
     // Glide Image Loading
     api libraries.glide, exclusions
     api libraries.gliderv, exclusions
-    kapt libraries.glideCompiler
     // kext
     // api libraries.kext
     api(libraries.archHelpers) {
