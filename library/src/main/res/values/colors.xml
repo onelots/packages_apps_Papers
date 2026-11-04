@@ -27,10 +27,10 @@
     <color name="euodos_night_elevated">#16261F</color>  <!-- Elevated dark surface -->
 
     <!-- Color for Notifications -->
-    <color name="notification_color">@color/light_theme_accent</color>
+    <color name="notification_color">@color/euodos_driftwood</color>
 
     <!-- Color for Muzei -->
-    <color name="muzei_color">@color/light_theme_accent</color>
+    <color name="muzei_color">@color/euodos_driftwood</color>
 
     <color name="go_btn_bg">#42000000</color>
 
