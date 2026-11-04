@@ -219,13 +219,13 @@ class CollectionActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManager {
         }
     }
     
-    override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.putParcelable("item", collection)
-        outState?.putBoolean("fromViewer", fromViewer)
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putParcelable("item", collection)
+        outState.putBoolean("fromViewer", fromViewer)
         super.onSaveInstanceState(outState)
     }
-    
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         fromViewer = savedInstanceState?.getBoolean("fromViewer", fromViewer) ?: fromViewer
         savedInstanceState?.let {

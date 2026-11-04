@@ -296,12 +296,12 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
         if (searchView?.isOpen == true) searchItem?.collapseActionView()
     }
     
-    override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.putInt("current", lastSection)
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("current", lastSection)
         super.onSaveInstanceState(outState)
     }
-    
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         invalidateOptionsMenu()
         hasCollections = boolean(R.bool.show_collections_tab)

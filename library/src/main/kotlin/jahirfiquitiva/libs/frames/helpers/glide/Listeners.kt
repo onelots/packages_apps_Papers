@@ -39,13 +39,13 @@ abstract class FramesGlideListener<Type> : RequestListener<Type> {
     open fun onLoadFailed(): Boolean = false
     
     override fun onResourceReady(
-        resource: Type, model: Any?, target: Target<Type>?,
-        dataSource: DataSource?, isFirstResource: Boolean
+        resource: Type, model: Any, target: Target<Type>?,
+        dataSource: DataSource, isFirstResource: Boolean
                                 ): Boolean =
         onLoadSucceed(resource, model, isFirstResource)
-    
+
     override fun onLoadFailed(
-        e: GlideException?, model: Any?, target: Target<Type>?,
+        e: GlideException?, model: Any?, target: Target<Type>,
         isFirstResource: Boolean
                              ): Boolean {
         FL.e("Glide Exception", e)
