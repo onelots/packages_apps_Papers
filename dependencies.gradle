@@ -32,7 +32,7 @@ ext.versions = [
         room                 : '2.7.2',
         permissions          : '2.0.1',
         materialDialogs      : '3.1.0',
-        glide                : '4.9.0',
+        glide                : '4.16.0',
         kext                 : '447d9d2',
         sectionedRecyclerView: 'ab5709a',
         rvFastScroll         : '67cdb7e',
