@@ -44,11 +44,11 @@
     <color name="splash_light_status_bar">@color/light_theme_primary_dark</color>
 
     <!-- Dark Theme -->
-    <color name="dark_theme_primary_dark">#121212</color>
-    <color name="dark_theme_primary">#121212</color>
-    <color name="dark_theme_accent">#70b8ff</color>
-    <color name="dark_theme_background">#121212</color>
-    <color name="dark_theme_card_background">#121212</color>
+    <color name="dark_theme_primary_dark">@color/euodos_night_surface</color>
+    <color name="dark_theme_primary">@color/euodos_night_surface</color>
+    <color name="dark_theme_accent">@color/euodos_driftwood_light</color>
+    <color name="dark_theme_background">@color/euodos_night_surface</color>
+    <color name="dark_theme_card_background">@color/euodos_night_elevated</color>
     <color name="dark_theme_dialogs_button_color">@color/dark_theme_accent</color>
     <color name="splash_dark_status_bar">@color/dark_theme_primary_dark</color>
 </resources>
