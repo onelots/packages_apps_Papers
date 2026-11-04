@@ -22,14 +22,11 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ViewModelProviders
 import ca.allanwang.kau.utils.contentView
 import ca.allanwang.kau.utils.openLink
 import ca.allanwang.kau.utils.postDelayed
 import ca.allanwang.kau.utils.toast
 import com.afollestad.materialdialogs.MaterialDialog
-import com.anjlab.android.iab.v3.BillingProcessor
-import com.anjlab.android.iab.v3.TransactionDetails
 import com.github.javiersantos.piracychecker.PiracyChecker
 import com.github.javiersantos.piracychecker.allow
 import com.github.javiersantos.piracychecker.callback
@@ -55,8 +52,6 @@ import jahirfiquitiva.libs.frames.helpers.utils.PLAY_STORE_LINK_PREFIX
 import jahirfiquitiva.libs.frames.helpers.utils.TURBO_ACTION
 import jahirfiquitiva.libs.frames.helpers.utils.WALLS_PICKER
 import jahirfiquitiva.libs.frames.ui.fragments.dialogs.QuickActionsBottomSheet
-import jahirfiquitiva.libs.frames.viewmodels.IAPItem
-import jahirfiquitiva.libs.frames.viewmodels.IAPViewModel
 import jahirfiquitiva.libs.kext.extensions.boolean
 import jahirfiquitiva.libs.kext.extensions.buildSnackbar
 import jahirfiquitiva.libs.kext.extensions.compliesWithMinTime
@@ -66,8 +61,7 @@ import jahirfiquitiva.libs.kext.extensions.isUpdate
 import jahirfiquitiva.libs.kext.extensions.itemsSingleChoice
 import jahirfiquitiva.libs.kext.extensions.stringArray
 
-abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActivity<T>(),
-                                                       BillingProcessor.IBillingHandler {
+abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActivity<T>() {
     
     override fun lightTheme(): Int = R.style.LightTheme
     override fun darkTheme(): Int = R.style.DarkTheme
@@ -91,18 +85,10 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     var dialog: MaterialDialog? = null
     
     private var checker: PiracyChecker? = null
-    private var donationsReady = false
-    private var billingProcessor: BillingProcessor? = null
-    
+
     override var wallpaper: Wallpaper? = null
     override val allowBitmapApply: Boolean = false
-    
-    @SuppressLint("MissingSuperCall")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initDonations()
-    }
-    
+
     override fun setContentView(layoutResID: Int) {
         super.setContentView(layoutResID)
         postDelayed(0) { startLicenseCheck() }
@@ -116,27 +102,6 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
         pickerKey = savedInstanceState?.getInt("pickerKey", 0) ?: 0
-    }
-    
-    private fun initDonations() {
-        if (donationsReady) return
-        if (donationsEnabled && stringArray(R.array.donation_items).orEmpty().isNotEmpty()
-            && BillingProcessor.isIabServiceAvailable(this)) {
-            destroyBillingProcessor()
-            getLicKey()?.let {
-                billingProcessor = BillingProcessor(this, it, this)
-                billingProcessor?.let {
-                    if (!it.isInitialized) it.initialize()
-                    try {
-                        donationsEnabled = it.isOneTimePurchaseSupported
-                    } catch (ignored: Exception) {
-                    }
-                    donationsReady = true
-                } ?: { donationsEnabled = false }()
-            } ?: { donationsEnabled = false }()
-        } else {
-            donationsEnabled = false
-        }
     }
     
     private fun startLicenseCheck(force: Boolean = false) {
@@ -167,7 +132,6 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         return ""
     }
     
-    open var donationsEnabled = false
     open fun amazonInstallsEnabled(): Boolean = false
     open fun checkLPF(): Boolean = true
     open fun checkStores(): Boolean = true
@@ -262,122 +226,23 @@ abstract class BaseFramesActivity<T : FramesKonfigs> : BaseWallpaperActionsActiv
         dialog?.show()
     }
     
-    fun doDonation() {
-        initDonations()
-        destroyDialog()
-        if (!donationsReady) {
-            showDonationErrorDialog(0, null)
-            return
-        }
-        billingProcessor?.let {
-            if (!it.isInitialized) it.initialize()
-            if (it.isInitialized) {
-                val donationViewModel = ViewModelProviders.of(this).get(IAPViewModel::class.java)
-                donationViewModel.iapBillingProcessor = it
-                donationViewModel.observe(this) {
-                    if (it.size > 0) {
-                        showDonationDialog(ArrayList(it))
-                    } else {
-                        showDonationErrorDialog(0, null)
-                    }
-                    donationViewModel.destroy(this)
-                }
-                destroyDialog()
-                dialog = mdDialog {
-                    message(R.string.loading)
-                    cancelable(false)
-                    cancelOnTouchOutside(false)
-                }
-                donationViewModel.loadData(stringArray(R.array.donation_items) ?: arrayOf(""), true)
-                dialog?.show()
-            }
-        }
-    }
-    
-    private fun showDonationDialog(items: ArrayList<IAPItem>) {
-        destroyDialog()
-        dialog = mdDialog {
-            title(R.string.donate)
-            itemsSingleChoice(items) { _, which, _ ->
-                billingProcessor?.purchase(this@BaseFramesActivity, items[which].id)
-            }
-            negativeButton(android.R.string.cancel)
-            positiveButton(R.string.donate)
-        }
-        dialog?.show()
-    }
-    
-    private fun showDonationErrorDialog(error: Int, reason: String?) {
-        destroyDialog()
-        dialog = mdDialog {
-            title(R.string.error_title)
-            message(
-                text = getString(
-                    R.string.donate_error, error.toString(),
-                    reason ?: getString(R.string.donate_error_unknown)))
-        }
-        dialog?.show()
-    }
-    
-    override fun onProductPurchased(productId: String, details: TransactionDetails?) {
-        billingProcessor?.let {
-            if (it.consumePurchase(productId)) {
-                destroyDialog()
-                dialog = mdDialog {
-                    title(R.string.donate_success_title)
-                    message(text = getString(R.string.donate_success_content, getAppName()))
-                    positiveButton(R.string.close)
-                }
-                dialog?.show()
-            }
-        }
-    }
-    
-    override fun onBillingError(errorCode: Int, error: Throwable?) {
-        showDonationErrorDialog(
-            errorCode, error?.message ?: getString(R.string.donate_error_unknown))
-        destroyBillingProcessor()
-    }
-    
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     override fun onDestroy() {
         super.onDestroy()
         destroyDialog()
-        destroyBillingProcessor()
         destroyChecker()
     }
-    
+
     fun destroyChecker() {
         checker?.destroy()
         checker = null
     }
-    
+
     fun destroyDialog() {
         dialog?.dismiss()
         dialog = null
     }
-    
-    private fun destroyBillingProcessor() {
-        billingProcessor?.release()
-        billingProcessor = null
-        donationsReady = false
-    }
-    
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (billingProcessor != null) {
-            billingProcessor?.let {
-                if (!(it.handleActivityResult(requestCode, resultCode, data))) {
-                    super.onActivityResult(requestCode, resultCode, data)
-                }
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
-    }
-    
-    override fun onBillingInitialized() {}
-    override fun onPurchaseHistoryRestored() {}
-    
+
     override fun applyBitmapWallpaper(
         toHomeScreen: Boolean, toLockScreen: Boolean, toBoth: Boolean,
         toOtherApp: Boolean

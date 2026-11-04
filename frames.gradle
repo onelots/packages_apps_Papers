@@ -47,8 +47,6 @@ dependencies {
     api libraries.rvFastScroll, exclusions
     // Chips
     api libraries.chips, exclusions
-    // In-App Purchases
-    api libraries.iaps, exclusions
     // Muzei API
     api libraries.muzeiApi, exclusions
     // Licenses Dialog
