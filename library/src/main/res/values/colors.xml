@@ -15,6 +15,17 @@
   ~ limitations under the License.
   -->
 <resources>
+    <!-- ===== Euodos brand palette =====
+         Source: https://wiki.euodos.fr/en/brand/brand-guidelines/ -->
+    <color name="euodos_night">#102F27</color>           <!-- Primary -->
+    <color name="euodos_cold_turkey">#D2BBBB</color>     <!-- Secondary -->
+    <color name="euodos_driftwood">#B08A4F</color>       <!-- Tertiary / gold accent -->
+    <!-- Tonal variants derived from the brand palette -->
+    <color name="euodos_driftwood_light">#C9A86A</color> <!-- Gold accent for dark surfaces -->
+    <color name="euodos_surface_light">#F7FAF6</color>   <!-- Night-tinted neutral surface -->
+    <color name="euodos_night_surface">#0E1A16</color>   <!-- Dark surface -->
+    <color name="euodos_night_elevated">#16261F</color>  <!-- Elevated dark surface -->
+
     <!-- Color for Notifications -->
     <color name="notification_color">@color/light_theme_accent</color>
 
