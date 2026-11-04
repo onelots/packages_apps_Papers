@@ -26,7 +26,7 @@ import com.bumptech.glide.request.target.Target
 import jahirfiquitiva.libs.frames.helpers.utils.FL
 import jahirfiquitiva.libs.kext.helpers.Rec
 
-inline fun <reified T> quickListener(crossinline what: (T) -> Boolean): FramesGlideListener<T> {
+inline fun <reified T : Any> quickListener(crossinline what: (T) -> Boolean): FramesGlideListener<T> {
     return object : FramesGlideListener<T>() {
         override fun onLoadSucceed(resource: T, model: Any?, isFirst: Boolean): Boolean {
             return what(resource)
@@ -34,7 +34,7 @@ inline fun <reified T> quickListener(crossinline what: (T) -> Boolean): FramesGl
     }
 }
 
-abstract class FramesGlideListener<Type> : RequestListener<Type> {
+abstract class FramesGlideListener<Type : Any> : RequestListener<Type> {
     abstract fun onLoadSucceed(resource: Type, model: Any?, isFirst: Boolean): Boolean
     open fun onLoadFailed(): Boolean = false
     
