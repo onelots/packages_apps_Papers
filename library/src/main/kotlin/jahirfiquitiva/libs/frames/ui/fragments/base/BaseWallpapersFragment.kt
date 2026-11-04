@@ -362,7 +362,7 @@ abstract class BaseWallpapersFragment : BaseFramesFragment<Wallpaper, WallpaperH
                 val filename = "thumb.png"
                 fos = activity?.openFileOutput(filename, Context.MODE_PRIVATE)
                 holder.img?.drawable?.toBitmap()
-                    ?.compress(Bitmap.CompressFormat.JPEG, context?.maxPictureRes ?: 25, fos)
+                    ?.compress(Bitmap.CompressFormat.JPEG, context?.maxPictureRes ?: 25, fos!!)
                 intent.putExtra("image", filename)
             } catch (ignored: Exception) {
             } finally {

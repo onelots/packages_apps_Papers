@@ -300,7 +300,7 @@ class WallpaperActionsDialog : DialogFragment() {
                             toHomeScreen -> R.string.home_screen
                             toLockScreen -> R.string.lock_screen
                             else -> R.string.empty
-                        }).toLowerCase()))
+                        }).lowercase()))
         } catch (e: Exception) {
             FL.e(e.message)
             activity?.toast(R.string.apply_successful_short)

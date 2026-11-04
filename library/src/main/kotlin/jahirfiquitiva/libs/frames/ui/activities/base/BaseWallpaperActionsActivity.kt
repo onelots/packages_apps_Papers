@@ -251,7 +251,7 @@ abstract class BaseWallpaperActionsActivity<T : FramesKonfigs> : ActivityWFragme
                         toHomeScreen -> R.string.home_screen
                         toLockScreen -> R.string.lock_screen
                         else -> R.string.empty
-                    }).toLowerCase()), Snackbar.LENGTH_LONG)
+                    }).lowercase()), Snackbar.LENGTH_LONG)
     }
     
     private var file: File? = null

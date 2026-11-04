@@ -222,7 +222,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
                     else -> ""
                 }
             }
-            searchView?.queryHint = getString(R.string.search_x, hint.toLowerCase())
+            searchView?.queryHint = getString(R.string.search_x, hint.lowercase())
         }
     }
     
@@ -252,7 +252,7 @@ abstract class FramesActivity : BaseFramesActivity<FramesKonfigs>(), FavsDbManag
         return super.onCreateOptionsMenu(menu)
     }
     
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         item?.let {
             when (it.itemId) {
                 R.id.refresh -> refreshContent()

@@ -25,7 +25,7 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import jahirfiquitiva.libs.kext.extensions.SimpleAnimatorListener
+import android.animation.AnimatorListenerAdapter
 import kotlin.math.roundToLong
 
 /**
@@ -53,8 +53,8 @@ fun saturateDrawableAnimator(current: Drawable, view: View): Animator {
     
     val set = AnimatorSet()
     set.playTogether(satAnim, alphaAnim, darkenAnim)
-    set.addListener(object : SimpleAnimatorListener() {
-        override fun onEnd(animator: Animator) {
+    set.addListener(object : AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator) {
             current.clearColorFilter()
             view.setHasTransientState(false)
         }

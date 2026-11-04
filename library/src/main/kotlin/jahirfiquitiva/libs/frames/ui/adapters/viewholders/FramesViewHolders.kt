@@ -134,7 +134,7 @@ class CollectionHolder(itemView: View) : FramesWallpaperHolder(itemView) {
         val thumb = rightCover.thumbUrl
         with(itemView) {
             val filled = context.boolean(R.bool.enable_filled_collection_preview)
-            title?.text = if (filled) collection.name.toUpperCase() else collection.name
+            title?.text = if (filled) collection.name.uppercase() else collection.name
             title?.setTextColor(context.getPrimaryTextColorFor(context.tilesColor))
             amount?.text = collection.wallpapers.size.toString()
             amount?.setTextColor(context.getSecondaryTextColorFor(context.tilesColor))
