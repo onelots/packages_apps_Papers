@@ -31,10 +31,10 @@
     <!-- Credits photo size -->
     <dimen name="photo_size">72dp</dimen>
     <bool name="isTablet">false</bool>
-    <!-- Corners Radius -->
-    <dimen name="cards_corner_radius">4dp</dimen>
-    <dimen name="dialogs_corner_radius">16dp</dimen>
-    <dimen name="bottom_sheet_corner_radius">16dp</dimen>
+    <!-- Corners Radius - Material 3 Expressive rounding -->
+    <dimen name="cards_corner_radius">16dp</dimen>
+    <dimen name="dialogs_corner_radius">28dp</dimen>
+    <dimen name="bottom_sheet_corner_radius">28dp</dimen>
     <!-- Viewer arrows -->
     <dimen name="viewer_arrow_size">48dp</dimen>
     <dimen name="viewer_arrow_margin">16dp</dimen>
