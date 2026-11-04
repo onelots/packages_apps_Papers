@@ -21,7 +21,7 @@ plugins {
 
 android {
     namespace 'jahirfiquitiva.libs.frames'
-    compileSdk versions.targetSdk
+    compileSdkVersion "android-37.0"
     buildToolsVersion versions.buildTools
 
     lint {

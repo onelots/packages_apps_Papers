@@ -20,7 +20,7 @@ plugins {
 
 android {
     namespace 'org.evolutionx.papers'
-    compileSdk versions.targetSdk
+    compileSdkVersion "android-37.0"
     buildToolsVersion versions.buildTools
 
     signingConfigs {
