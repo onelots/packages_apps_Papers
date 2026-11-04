@@ -33,7 +33,6 @@ dependencies {
     // Glide Image Loading
     api libraries.glide, exclusions
     api libraries.gliderv, exclusions
-    api libraries.glideWebp, exclusions
     kapt libraries.glideCompiler
     // kext
     // api libraries.kext

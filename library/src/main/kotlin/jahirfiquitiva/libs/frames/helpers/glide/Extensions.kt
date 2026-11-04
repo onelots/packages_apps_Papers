@@ -22,12 +22,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
-import com.bumptech.glide.integration.webp.decoder.WebpDrawable
-import com.bumptech.glide.integration.webp.decoder.WebpDrawableTransformation
 import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
@@ -65,19 +60,7 @@ fun RequestManager.loadPicture(
         
         if (fitCenter) options = options.optionalFitCenter()
         if (circular) options = options.optionalCircleCrop()
-        
-        try {
-            if (url.endsWith("webp", true) || thumbnail.endsWith("webp", true)) {
-                @Suppress("CascadeIf")
-                val transformation: BitmapTransformation? = if (fitCenter) FitCenter()
-                else if (circular) CircleCrop()
-                else null
-                options = options.optionalTransform(
-                    WebpDrawable::class.java, WebpDrawableTransformation(transformation))
-            }
-        } catch (e: Exception) {
-        }
-        
+
         val transition = if (context == null || context.isLowRamDevice) {
             DrawableTransitionOptions.with { _, _ -> NoTransition<Drawable>() }
         } else if (withTransition) {
